@@ -8,6 +8,8 @@
  */
 
 import * as constants from '../core/constants';
+
+// Importing color spaces from color.js
 import {
   ColorSpace,
   to,
