@@ -8,6 +8,20 @@
  */
 
 import * as constants from '../core/constants';
+import {converter} from 'culori';
+let rgb = converter('rgb');
+
+import {
+  OKHSV, // in sRGB gamut
+  OKHSL, // in sRGB gamut
+  convert
+} from '@texel/color';
+convert([0.5, 0.15, 30], OKHSL, texelSRGB);
+convert([0.5, 0.15, 30], OKHSV, texelSRGB);
+
+// map the input OKLCH to the R,G,B space (sRGB or DisplayP3)
+const gamut = isDisplayP3Supported ? DisplayP3Gamut : sRGBGamut;
+
 import {
   ColorSpace,
   to,
