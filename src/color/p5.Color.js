@@ -12,7 +12,7 @@ import * as constants from '../core/constants';
 // Importing color spaces from color.js
 import {
   ColorSpace,
-  to,
+  to as convert,
   // toGamut,
   serialize,
   parse,
@@ -38,8 +38,11 @@ import {
   A98RGB_Linear,
   A98RGB
 } from 'colorjs.io/fn';
+
 import HSB from './color_spaces/hsb.js';
 
+//registering color spaces by calling ColorSpace.register(colorSpaceReference)
+//procedural API -> https://colorjs.io/docs/procedural
 ColorSpace.register(XYZ_D65);
 ColorSpace.register(sRGB_Linear);
 ColorSpace.register(sRGB);
