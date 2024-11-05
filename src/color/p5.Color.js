@@ -189,103 +189,14 @@ class Color {
    * </code>
    * </div>
    */
-<<<<<<< HEAD
-  p5.Color = class Color {
-    color;
-    maxes;
-    mode;
-
-    constructor(pInst, vals) {
-      // This changes with the sketch's setting
-      // pInst = p5 instance
-      // vals = color data processed according to the color mode
-      // NOTE: Maintaining separate maxes for different color space is awkward.
-      //       Consider just one universal maxes.
-      this.maxes = pInst._colorMaxes;
-      // This changes with the color object
-      this.mode = pInst._colorMode;
-
-      if (typeof vals === 'object' && !Array.isArray(vals) && vals !== null){
-        this.color = vals;
-      } else if(typeof vals[0] === 'string') {
-        try{
-          //NOTE: this will not necessarily have the right color mode
-          //The parse function expects a string input and then convert it to a Color object
-          this.color = parse(vals[0]);
-        }catch(err){
-          // TODO: Invalid color string
-          console.error('Invalid color string');
-        }
-      //if vals is an array of numbers e.g [255,0,0] or [120, 50, 75, 0.5]
-      //define which value is alpha, if not defined default to 1
-      }else{
-
-        let alpha;
-
-        if(vals.length === 4){
-          alpha = vals[vals.length-1];
-        }else if (vals.length === 2){
-          alpha = vals[1];
-          vals = [vals[0], vals[0], vals[0]];
-        }else if(vals.length === 1){
-          vals = [vals[0], vals[0], vals[0]];
-        }
-        //alpha is normalized according to the color mode's maxes 
-        alpha = alpha !== undefined
-          ? alpha / pInst._colorMaxes[pInst._colorMode][3]
-          : 1;
-
-        // Setting _colorMode which can be 'rgb', 'hsb', or 'hsl'
-        // These should map to color.js color space
-        let space = 'srgb';
-        let coords = vals;
-        switch(pInst._colorMode){
-          case 'rgb':
-            space = 'srgb';
-            coords = [
-              vals[0] / pInst._colorMaxes[pInst._colorMode][0],
-              vals[1] / pInst._colorMaxes[pInst._colorMode][1],
-              vals[2] / pInst._colorMaxes[pInst._colorMode][2]
-            ];
-            break;
-          case 'hsb':
-            // TODO: need implementation
-            space = 'hsb';
-            coords = [
-              vals[0] / pInst._colorMaxes[pInst._colorMode][0] * 360,
-              vals[1] / pInst._colorMaxes[pInst._colorMode][1] * 100,
-              vals[2] / pInst._colorMaxes[pInst._colorMode][2] * 100
-            ];
-            break;
-          case 'hsl':
-            space = 'hsl';
-            coords = [
-              vals[0] / pInst._colorMaxes[pInst._colorMode][0] * 360,
-              vals[1] / pInst._colorMaxes[pInst._colorMode][1] * 100,
-              vals[2] / pInst._colorMaxes[pInst._colorMode][2] * 100
-            ];
-            break;
-          default:
-            console.error('Invalid color mode');
-        }
-
-        const color = {
-          space,
-          coords,
-          alpha
-        };
-        // Convert a color to a different color space
-        this.color = to(color, space);
-      }
-    }
-=======
+  
   toString(format) {
     // NOTE: memoize
     return serialize(this.color, {
       format
     });
   }
->>>>>>> 8909e1b76f5fb3bbb8a0301ddf78b885b8d43284
+
 
   /**
    * Sets the red component of a color.
