@@ -9,7 +9,7 @@ async function draw(){
 
   //let c1 = new Color("hsl", [10,11,14]);
  
-  let c1 = color(255,204,0);
+  let c1 = color('rgba(0, 0, 255, 1)');
   fill(c1);
   textSize(30);
   text('hello', 10, 30);
