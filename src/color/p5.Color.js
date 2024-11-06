@@ -69,6 +69,7 @@ class Color {
   maxes;
   mode;
 
+  // colorMode and colorMaxes defaults to rgb, and rgb maxes values
   constructor(vals, colorMode='rgb', colorMaxes={rgb: [255, 255, 255, 255]}) {
     // This changes with the sketch's setting
     // NOTE: Maintaining separate maxes for different color space is awkward.
@@ -107,32 +108,34 @@ class Color {
 
       // _colorMode can be 'rgb', 'hsb', or 'hsl'
       // These should map to color.js color space
+      // Coords is an array of normalized values for each color channel
       let space = 'srgb';
       let coords = vals;
       switch(this.mode){
         case 'rgb':
           space = 'srgb';
           coords = [
-            vals[0] / this.maxes[this.mode][0],
-            vals[1] / this.maxes[this.mode][1],
-            vals[2] / this.maxes[this.mode][2]
+            vals[0] / this.maxes[this.mode][0], // R /255 -> Range [0 , 1]
+            vals[1] / this.maxes[this.mode][1], // G /255
+            vals[2] / this.maxes[this.mode][2]  // B /255
           ];
           break;
         case 'hsb':
           // TODO: need implementation
+          // Color.js range for HSB and HSL is [0, 360], [0, 100], [0,100]
           space = 'hsb';
           coords = [
-            vals[0] / this.maxes[this.mode][0] * 360,
-            vals[1] / this.maxes[this.mode][1] * 100,
-            vals[2] / this.maxes[this.mode][2] * 100
+            vals[0] / this.maxes[this.mode][0] * 360, // (H / 360) * 360 
+            vals[1] / this.maxes[this.mode][1] * 100, // (S / 100) * 100
+            vals[2] / this.maxes[this.mode][2] * 100  // (B / 100) * 100
           ];
           break;
         case 'hsl':
           space = 'hsl';
           coords = [
-            vals[0] / this.maxes[this.mode][0] * 360,
-            vals[1] / this.maxes[this.mode][1] * 100,
-            vals[2] / this.maxes[this.mode][2] * 100
+            vals[0] / this.maxes[this.mode][0] * 360, // (H / 360) * 360
+            vals[1] / this.maxes[this.mode][1] * 100, // (S / 360) * 100
+            vals[2] / this.maxes[this.mode][2] * 100  // (L / 360) * 100
           ];
           break;
         default:
