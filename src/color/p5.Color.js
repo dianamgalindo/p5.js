@@ -20,10 +20,10 @@ import {
   deserialize
 } from '@texel/color';
 
-convert([0.5, 0.15, 30], OKHSL, texelSRGB);
-convert([0.5, 0.15, 30], OKHSV, texelSRGB);
-texelSerialize([0, 0.5, 1], texelSRGB);
-deserialize('color(display-p3 0 0.5 1 / 0.35)');
+//convert([0.5, 0.15, 30], OKHSL, texelSRGB);
+//convert([0.5, 0.15, 30], OKHSV, texelSRGB);
+//texelSerialize([0, 0.5, 1], texelSRGB);
+//deserialize('color(display-p3 0 0.5 1 / 0.35)');
 
 class Color {
   color;
@@ -45,7 +45,7 @@ class Color {
       try{
         // NOTE: this will not necessarily have the right color mode
         //this.color = parse(vals[0]);
-        this.color = deserialize(vals[0])
+        this.color = deserialize(vals[0]);
         console.log("Deserialized valid color", this.color)
       }catch(err){
         // TODO: Invalid color string
@@ -73,7 +73,7 @@ class Color {
       let coords = vals;
       switch(this.mode){
         case 'rgb':
-          space = 'texelSRGB';
+          space = texelSRGB;
           coords = [
             vals[0] / this.maxes[this.mode][0],
             vals[1] / this.maxes[this.mode][1],
@@ -82,7 +82,7 @@ class Color {
           break;
         case 'hsb':
           // TODO: need implementation
-          space = 'OKHSV';
+          space = OKHSV;
           coords = [
             vals[0] / this.maxes[this.mode][0] * 360,
             vals[1] / this.maxes[this.mode][1] * 100,
@@ -90,7 +90,7 @@ class Color {
           ];
           break;
         case 'hsl':
-          space = 'OKHSL';
+          space = OKHSL;
           coords = [
             vals[0] / this.maxes[this.mode][0] * 360,
             vals[1] / this.maxes[this.mode][1] * 100,
@@ -108,8 +108,8 @@ class Color {
       };
       this.color = color;
       //this.color = to(color, space);
-      //this.color = convert(coords, color, space)
-      console.log("This is my full color", color)
+      //this.color = convert(coords, space, texelSRGB)
+      console.log("This is my color", this.color)
     }
   }
 
@@ -160,6 +160,12 @@ class Color {
   //     format
   //   });
   // }
+  toString(format) {
+    return texelSerialize(
+      [...this.color.coords, this.color.alpha],
+      this.color.space
+    );
+  }
 
   /**
    * Sets the red component of a color.
@@ -435,9 +441,9 @@ class Color {
   //   }
   // }
 
-  get _array() {
-    return [...this.color.coords, this.color.alpha];
-  }
+  // get _array() {
+  //   return [...this.color.coords, this.color.alpha];
+  // }
 
   // get levels() {
   //   return this._array.map(v => v * 255);
